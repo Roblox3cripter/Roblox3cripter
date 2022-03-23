@@ -1,0 +1,128 @@
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+
+local UI = Material.Load({
+     Title = "Untel23's Game",
+     Style = 3,
+     SizeX = 400,
+     SizeY = 300,
+     Theme = "Dark"
+})
+
+local Page = UI.New({
+    Title = "Main"
+})
+
+Page.Button({
+    Text = "Auto Gun Giver",
+    Callback = function()
+       for i, v in pairs(game.Workspace:GetChildren()) do
+	if v.Name == 'Model' then
+		for i, v in pairs(v:GetChildren()) do
+			if v.Name == 'Part' then
+				for a, b in pairs(v:GetChildren()) do
+                    if b.Name == "Part" then
+					if v.Part.CFrame == CFrame.new(-45, 12.1000004, 275, 0, 0, 1, 1, 0, 0, 0, 1, 0) then
+						while true do
+							v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+							wait(0.1)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+end
+    end
+})
+
+Page.Button({
+    Text = "Auto Car Spawn",
+    Callback = function()
+           for i, v in pairs(game.Workspace:GetChildren()) do
+	if v.Name == 'Model' then
+		for i, v in pairs(v:GetChildren()) do
+			if v.Name == 'Part' then
+				for a, b in pairs(v:GetChildren()) do
+					if b.Name == 'Sound' then
+						if b.SoundId == 'rbxassetid://3919693908' then
+							while true do
+								v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+								v.Transparency = 1
+								wait(0.1)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+    end
+})
+
+Page.Button({
+    Text = "Click All Button",
+    Callback = function()
+       for i, v in pairs(Workspace:GetDescendants()) do
+	if v:IsA("ClickDetector") then
+		fireclickdetector(v)
+	end
+end
+    end
+})
+
+Page.Button({
+    Text = "Crazy Car",
+    Callback = function()
+       for i, v in pairs(Workspace:GetDescendants()) do
+if v:IsA("Model") then
+for i, v in pairs(v:GetDescendants()) do
+if v:IsA("Model") then
+for i, v in pairs(v:GetChildren()) do
+if v.Name == 'Configurations' then
+v.Speed.Value = 100
+v.Height.Value = 25
+v.Suspension.Value = 20
+v.TurnSpeed.Value = 5
+end
+end
+end
+end
+end
+end
+
+for i, v in pairs(Workspace:GetDescendants()) do
+if v:IsA("Model") then
+for i, v in pairs(v:GetDescendants()) do
+if v:IsA("Model") then
+for i, v in pairs(v:GetChildren()) do
+if v.Name == 'DriveSeat' then
+v.MaxSpeed = 100
+end
+end
+end
+end
+end
+end
+    end
+})
+
+Page.Button({
+    Text = "Click Drink Button",
+    Callback = function()
+       for i, v in pairs(game.Workspace:GetChildren()) do
+if v.Name == 'Model' then
+for i, v in pairs(v:GetChildren()) do
+if v.Name == 'Model' then
+for a, b in pairs(v:GetDescendants()) do
+if b:IsA("ClickDetector") then
+fireclickdetector(b)
+end
+end
+end
+end
+end
+end
+    end
+})
