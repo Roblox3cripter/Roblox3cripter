@@ -12,26 +12,41 @@ local Page = UI.New({
     Title = "Main"
 })
 
+local gunp = nil
+local carp = nil
+local drinkp = nil
+
+for i, v in pairs(game.workspace:GetDescendants()) do
+    if v:IsA("Part") then
+        if v.CFrame == CFrame.new(-75, 12.5, 275, -1, 0, 0, 0, 0, 1, 0, 1, -0) then
+            gunp = v
+        end
+    end
+end
+
+for i, v in pairs(game.workspace:GetDescendants()) do
+    if v:IsA("Part") then
+        if v.CFrame == CFrame.new(-111.5, 11.5, 278.5, 0, -1, -0, -1, 0, -0, 0, 0, -1) then
+            carp = v
+        end
+    end
+end
+
+for i, v in pairs(game.workspace:GetDescendants()) do
+    if v:IsA("Part") then
+        if v.CFrame == CFrame.new(-247.5, 15.3999119, 164, 0, 0, -1, 0, 1, 0, 1, 0, 0) then
+            drinkp = v
+        end
+    end
+end
+
 Page.Button({
     Text = "Auto Gun Giver",
     Callback = function()
-       for i, v in pairs(game.Workspace:GetChildren()) do
-	if v.Name == 'Model' then
-		for i, v in pairs(v:GetChildren()) do
-			if v.Name == 'Part' then
-				for a, b in pairs(v:GetChildren()) do
-                    if b.Name == "Part" then
-					if v.Part.CFrame == CFrame.new(-45, 12.1000004, 275, 0, 0, 1, 1, 0, 0, 0, 1, 0) then
-						while true do
-							v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-							wait(0.1)
-						end
-					end
-				end
-			end
-		end
-	end
-end
+while true do
+gunp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+gunp.Transparency = 1
+wait(0.05)
 end
     end
 })
@@ -39,24 +54,10 @@ end
 Page.Button({
     Text = "Auto Car Spawn",
     Callback = function()
-           for i, v in pairs(game.Workspace:GetChildren()) do
-	if v.Name == 'Model' then
-		for i, v in pairs(v:GetChildren()) do
-			if v.Name == 'Part' then
-				for a, b in pairs(v:GetChildren()) do
-					if b.Name == 'Sound' then
-						if b.SoundId == 'rbxassetid://3919693908' then
-							while true do
-								v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-								v.Transparency = 1
-								wait(0.1)
-							end
-						end
-					end
-				end
-			end
-		end
-	end
+while true do
+carp.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+carp.Transparency = 1
+wait(0.05)
 end
     end
 })
@@ -64,7 +65,7 @@ end
 Page.Button({
     Text = "Click All Button",
     Callback = function()
-       for i, v in pairs(Workspace:GetDescendants()) do
+for i, v in pairs(Workspace:GetDescendants()) do
 	if v:IsA("ClickDetector") then
 		fireclickdetector(v)
 	end
@@ -109,20 +110,15 @@ end
 })
 
 Page.Button({
-    Text = "Click Drink Button",
+    Text = "Auto Click Drink Button",
     Callback = function()
-       for i, v in pairs(game.Workspace:GetChildren()) do
-if v.Name == 'Model' then
-for i, v in pairs(v:GetChildren()) do
-if v.Name == 'Model' then
-for a, b in pairs(v:GetDescendants()) do
-if b:IsA("ClickDetector") then
-fireclickdetector(b)
+while true do
+for i, v in pairs(drinkp.Parent:GetDescendants()) do
+if v:IsA("ClickDetector") then
+fireclickdetector(v)
 end
 end
-end
-end
-end
+wait(0.1)
 end
     end
 })
