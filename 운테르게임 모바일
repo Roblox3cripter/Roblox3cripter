@@ -52,6 +52,19 @@ end
 })
 
 Page.Button({
+    Text = "Steal Gun",
+    Callback = function()
+for i, v in pairs(game.Workspace:GetDescendants()) do
+if v:IsA("Tool") then
+if v.Name == "pistol" then
+v.Parent = game.Players.LocalPlayer.Backpack
+end
+end
+end
+    end
+})
+
+Page.Button({
     Text = "Auto Car Spawn",
     Callback = function()
 while true do
@@ -120,5 +133,16 @@ end
 end
 wait(0.1)
 end
+    end
+})
+
+Page.TextField({
+    Text = "Kill Player (Equiped Gun Needed)",
+    Callback = function(value)
+local args = {
+    [1] = game:GetService("Players")[value].Character.Humanoid
+}
+
+game:GetService("Players").LocalPlayer.Character.pistol.RemoteEvent:FireServer(unpack(args))
     end
 })
