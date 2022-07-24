@@ -1,50 +1,54 @@
-local a = game
-local b = a.Workspace
-local c = a.Lighting
-local d = b.Terrain
-d.WaterWaveSize = 0
-d.WaterWaveSpeed = 0
-d.WaterReflectance = 0
-d.WaterTransparency = 0
-c.GlobalShadows = false
-c.FogEnd = 9e9
-settings().Rendering.QualityLevel = "Level01"
-for e, f in pairs(a:GetDescendants()) do
-   if f:IsA("Part") or f:IsA("Union") or f:IsA("CornerWedgePart") or f:IsA("TrussPart") then
-       f.Reflectance = 0
-   elseif f:IsA("Decal") or f:IsA("Texture") then
-       f.Transparency = 0
-   elseif f:IsA("ParticleEmitter") or f:IsA("Trail") then
-       f.Lifetime = NumberRange.new(0)
-   elseif f:IsA("Explosion") then
-       f.BlastPressure = 0
-       f.BlastRadius = 0
-   elseif f:IsA("Fire") or f:IsA("SpotLight") or f:IsA("Smoke") or f:IsA("Sparkles") then
-       f.Enabled = false
-   elseif f:IsA("MeshPart") then
-       f.Reflectance = 0
-   end
-   if f:IsA("Fire") then
-       f:Destroy()
-       wait()
-   end
-   if string.find(f.Name:lower(), "door") then
-       f:Destroy()
-   end
-   if string.find(f.Name:lower(), "tree") then
-       f:Destroy()
-   end
-   if f:IsA("ParticleEmitter") then
-       f:Destroy()
-       wait()
-   end
+local cam=workspace.CurrentCamera
+local screen_size=Vector2.new(0,0)
+local maxdist=500 -- Maximum distance from where parts should be visible
+local update=10 -- In seconds
+local oldt=tick()
+local gui=game.StarterGui.ScreenGui
+screen_size=Vector2.new(gui.AbsoluteSize.x,gui.AbsoluteSize.y)
+
+local function pixel2stud(pix)
+return pix * 2.54 / 96
 end
-for e, g in pairs(c:GetChildren()) do
-   if
-       g:IsA("BlurEffect") or g:IsA("SunRaysEffect") or g:IsA("ColorCorrectionEffect") or g:IsA("BloomEffect") or
-           g:IsA("DepthOfFieldEffect")
-    then
-       g.Enabled = false
-   end
+
+local objects,trans={},{}
+function Get(par,class)
+local cl=class;
+local chs=par:GetChildren()
+for i=1,#chs do
+if chs[i]:IsA(class) and not chs[i].Parent:findFirstChild"Humanoid" then
+table.insert(objects,chs[i])
+table.insert(trans,chs[i].Transparency)
 end
-sethiddenproperty(game.Lighting, "Technology", "Compatibility")
+Get(chs[i],cl)
+end
+return objects;
+end
+gt=Get(workspace,"BasePart")
+
+gui.Changed:connect(function(w)
+if w=="AbsoluteSize" then
+screen_size=Vector2.new(gui.AbsoluteSize.x,gui.AbsoluteSize.y)
+end
+end)
+
+while true do
+local mid=cam.CoordinateFrame*CFrame.new(0,0,-maxdist)
+--local region=Region3.new(Vector3.new(bottom_left.p.x,bottom_left.p.y,bottom_left.p.z),Vector3.new(top_far_right.p.x,top_right.p.y,top_far_right.p.z))
+--local parts = workspace:FindPartsInRegion3(region)
+if tick()>oldt+update then
+oldt=tick()
+objects={}
+gt=Get(workspace,"BasePart")
+end
+for i=1,#gt do
+--if (gt[i].Position-cam.CoordinateFrame*CFrame.new(0,0,(maxdist/rays)*path).p).magnitude<=pixel2stud(math.max(screen_size.x,screen_size.y))*path then
+if (gt[i].Position-mid.p).magnitude<=maxdist then
+gt[i].Transparency=trans[i]
+else
+gt[i].Transparency=1
+end
+end
+wait()
+end 
+
+--mediafire
