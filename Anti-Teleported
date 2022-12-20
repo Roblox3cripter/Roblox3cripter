@@ -1,0 +1,40 @@
+local Player = game:GetService("Players")
+local LastPosition = {}
+
+local function NewPlayer(player)
+	player.CharacterAdded:Connect(function()
+		LastPosition[player.UserId] = nil	
+	end)
+	spawn(function()
+		while true do
+			wait(1)
+			local char = player.Character
+			if char ~= nil then
+				local humanoid = char:FindFirstChildOfClass("Humanoid")
+				if humanoid ~= nil then
+					local CurrentPosition = char:GetPrimaryPartCFrame()
+					local TempLastPositon = LastPosition[player.UserId]
+					if TempLastPositon ~= nil then
+						local BeforePositon = Vector3.new(TempLastPositon.X, 0, TempLastPositon.Z)
+						local NewPosition = Vector3.new(CurrentPosition.X, 0, CurrentPosition.Z)
+
+						local Distance = (BeforePositon - NewPosition).Magnitude
+						print(Distance)
+						local MaxDistance = humanoid.WalkSpeed * 2
+						if Distance > MaxDistance then
+							char:SetPrimaryPartCFrame(TempLastPositon)
+							player:Kick("Teleported.")
+						end
+					end
+					LastPosition[player.UserId] = CurrentPosition
+				end
+			end
+		end
+	end)
+end
+
+Player.PlayerAdded:Connect(NewPlayer)
+for _, player in pairs(Player:GetPlayers()) do
+	NewPlayer(player)
+end
+
