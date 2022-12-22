@@ -1,0 +1,18 @@
+script.Parent = game:GetService("ServerScriptService")
+local PS = game:GetService("PhysicsService")
+PS:CreateCollisionGroup("plr")
+PS:CollisionGroupSetCollidable("plr", "plr", false)
+
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(Char)
+		Char:WaitForChild("Humanoid")
+		Char:WaitForChild("HumanoidRootPart")
+		Char:WaitForChild("Head")
+		wait(0.1)
+		for i, v in pairs(Char:GetChildren()) do
+			if v:IsA("BasePart") then
+				PS:SetPartCollisionGroup(v, "plr")
+			end
+		end
+	end)
+end)
